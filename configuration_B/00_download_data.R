@@ -8,8 +8,9 @@
 #   data/target_group.csv               lon, lat (all records of the three genera in TG_REGION, bias proxy)
 #   data/ (geodata cache)               WorldClim 2.1 current + CMIP6 future
 #
-# STATUS: written without access to GBIF or WorldClim from my environment, so
-# it has NOT been run. Expect to adjust small things. Run it section by section.
+# STATUS: run on 18 to 19 Nov 2026. GBIF download keys and DOIs are recorded in docs/DATA_SOURCES.md. 
+#         Run it section by section.
+#
 #
 # BEFORE YOU START
 #  1. Create a free GBIF account (gbif.org) and set credentials once:
