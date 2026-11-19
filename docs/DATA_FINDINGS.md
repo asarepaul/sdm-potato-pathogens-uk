@@ -1,7 +1,7 @@
 # Findings from the first GBIF download (UK only, 417 records)
 
 Download key 0000385-261118162104854, GBIF Backbone taxonomy, Simple CSV, CC BY-NC 4.0.
-The DOI was read from a photo of the download page. Check it against the page before citing it.
+The DOI was checked against the download page on 19 Nov 2026.
 
 ## What the data showed
 
@@ -139,6 +139,6 @@ Read from photographs of the page. The Synonyms section lists 57 results. Seen o
 
 - Present: *Gibberella cyanogena*, *Sphaeria cyanogena*, *Gibberella pulicaris*, *Gibbera pulicaris*, *Nectria pulicaris*, *Botryosphaeria pulicaris*, *Fusarium sulphureum*, *Fusarium discolor* var. *sulphureum*.
 - *Sphaeria pulicaris* Fr.: a page search found one match, which was inside the word "Botryosphaeria", so it is not listed as a separate entry. Two records carry this name (2 of 526). It is the basionym of *Gibberella pulicaris* (Fr.) Sacc. and *Botryosphaeria pulicaris* (Fr.) Ces. & De Not. (the "(Fr.)" in those names marks Fries's original *Sphaeria pulicaris*), and GBIF returned the records under the *F. sambucinum* key. Kept; the effect of dropping them is at most 2 records.
-- "roseum": a page search found 6 matches. Two sit in the Type material section: *Fusarium roseum* Link (type, BPI 452843) and *Fusarium roseum* var. *matthiolae* P.Karst. (type, H). One is *Fusarium roseum* f. *cereale* (Snyder & Hansen) in the Synonyms list. The other three were not photographed. GBIF therefore treats *F. roseum* Link as part of the *F. sambucinum* concept, which agrees with the New Zealand and USDA lists above.
+- "roseum": a page search found 6 matches. Two sit in the Type material section: *Fusarium roseum* Link (type, BPI 452843) and *Fusarium roseum* var. *matthiolae* P.Karst. (type, H). Four sit in the Synonyms list, checked on 19 Nov 2026: *Fusarium roseum* Link, *Fusidium roseum* (Link) Link, *Fusarium roseum* f. *cereale* (Cooke) W.C. Snyder & H.N. Hansen, and *Fusarium roseum* f. *phaseoli* N. Barros. GBIF therefore treats *F. roseum* Link as part of the *F. sambucinum* concept, which agrees with the New Zealand and USDA lists above.
 
 Consequence for the rule: the stated reason for excluding the 38 *roseum*-named records ("historical catch-all name") is not supported by anything checked so far, and the evidence found points the other way. It is a judgement, not a verified fact. The primary analysis keeps the rule fixed before any model results were seen (526 records). Report two sensitivity sets alongside it: strict (provider or GBIF name "Fusarium sambucinum" only, 338 records) and broad (all 564 Fusarium records GBIF returned for the key, including the 38 *roseum*-named). Both sets were built and run on 19 Nov 2026; results are in `docs/FUSARIUM_SENSITIVITY_RESULTS.md`.
