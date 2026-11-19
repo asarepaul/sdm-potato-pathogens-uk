@@ -74,7 +74,8 @@ Raw data is not committed, because occurrence records carry their own licences a
 | Future climate | WorldClim 2.1 CMIP6, SSP2-4.5 and SSP5-8.5 | four periods, 2021 to 2100 |
 | Target-group background | GBIF records of the three genera | bias proxy |
 
-The first manuscript used the `spocc` package (GBIF, iDigBio, iNaturalist, VertNet, ALA, OBIS). This rebuild uses GBIF directly, so counts differ from the manuscript. The name rule for *F. sambucinum* (which GBIF synonyms count) is a decision recorded in `docs/DATA_FINDINGS.md` and still to be verified against the GBIF Synonyms tab.
+The first manuscript used the `spocc` package (GBIF, iDigBio, iNaturalist, VertNet, ALA, OBIS). This rebuild uses GBIF directly, so counts differ from the manuscript. The name rule for *F. sambucinum* (which GBIF synonyms count) is a decision recorded in `docs/DATA_FINDINGS.md` and was checked against the GBIF Synonyms tab on 19 Nov 2026, with one open point on the Fusarium roseum names described there.
+
 
 ## Still open
 
@@ -88,4 +89,5 @@ Unpublished manuscript. Co-authors: TODO, to be confirmed before this repository
 
 ## Licence
 
-TODO: choose a licence for the code before making the repository public. No licence file is included, so by default all rights are reserved. Data keeps its original licences.
+Code is released under the MIT licence (see `LICENSE`). The licence covers the code only. It does not cover the manuscript text, and the data keeps its original licences.
+
