@@ -81,11 +81,11 @@ The first manuscript used the `spocc` package (GBIF, iDigBio, iNaturalist, VertN
 
 - Whether any future projection stays in the paper. This is a decision for the authors, and any rule for admitting a projection must be justified and cited before maps are made.
 - Verification of all references in the draft.
-- Co-author agreement and the target journal's policy on code and data, before this repository is made public.
+- The target journal's policy on code and data, before this repository is made public.
 
 ## Citation
 
-Unpublished manuscript. Lead author: Paul Kojo Asare.
+Unpublished manuscript. Author: Paul Kojo Asare.
 
 ## Licence
 
