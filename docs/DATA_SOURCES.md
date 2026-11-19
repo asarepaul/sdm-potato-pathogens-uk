@@ -37,10 +37,10 @@ Record anything that changed, for example a database updated since the manuscrip
 
 ## GBIF downloads (recorded by `00_download_data.R`, 18 to 19 Nov 2026)
 
-| Download | GBIF key | DOI |
-|---|---|---|
-| Europe pathogen records | 0000583-261118162104854 | 10.15468/dl.pygjuu |
-| Target-group records (three genera) | not recorded here | 10.15468/dl.up9rsy |
-| UK pathogen records | 0000385 or 0000617 (not recorded here) | 10.15468/dl.y7jfj9, unverified |
+| Download | GBIF key | DOI | Records | Download date |
+|---|---|---|---|---|
+| Europe pathogen records | 0000583-261118162104854 | 10.15468/dl.pygjuu | 1,209 | 18 Nov 2026 |
+| Target-group records | 0000617-261118162104854 | 10.15468/dl.up9rsy | 17,310 | 18 Nov 2026 |
+| UK pathogen records | 0000385-261118162104854 | 10.15468/dl.y7jfj9 | 417 | 18 Nov 2026 |
 
-DOIs for the first two were read from `data/gbif/pathogen_europe_DOI.txt` and `data/gbif/target_group_DOI.txt`. Open each DOI to confirm it resolves to the right download before citing. The UK DOI has no file in `data/gbif/` and must be confirmed in your GBIF account's download list.
+Checked on 19 Nov 2026 by opening each download page on gbif.org while signed in: the key, DOI, record count and download date above are as shown on those pages. All three are licensed CC BY-NC 4.0. The query filters on each page were not checked in that pass. GBIF states that each data file is eligible for deletion after 18 May 2027 unless GBIF discovers citations of the download. Cite each download as "GBIF.org (18 November 2026) GBIF Occurrence Download" followed by its DOI link.
