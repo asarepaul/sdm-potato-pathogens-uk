@@ -21,3 +21,6 @@ outputs_INVALID_run1/
 sdm_diag_tmp.R
 configuration_B/sdm_diag_tmp.R
 .DS_Store
+configuration_B/data/*
+outputs/
+outputs_*/
