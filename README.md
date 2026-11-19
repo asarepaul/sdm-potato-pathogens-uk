@@ -79,7 +79,7 @@ The first manuscript used the `spocc` package (GBIF, iDigBio, iNaturalist, VertN
 
 ## Still open
 
-- Whether any future projection stays in the paper. This is a decision for the authors, and any rule for admitting a projection must be justified and cited before maps are made.
+- Whether any future projection stays in the paper. This is a decision for the author, and any rule for admitting a projection must be justified and cited before maps are made.
 - Verification of all references in the draft.
 - The target journal's policy on code and data, before this repository is made public.
 
