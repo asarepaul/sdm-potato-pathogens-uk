@@ -1,6 +1,6 @@
 # Climate-only species distribution models of three UK potato pathogens: a reproducible rebuild
 
-R code for an ensemble species distribution model (SDM) of *Fusarium sambucinum* (dry rot), *Phytophthora infestans* (late blight) and *Alternaria solani* (early blight), with projections for the UK under CMIP6 scenarios SSP2-4.5 and SSP5-8.5.
+R code for an ensemble species distribution model (SDM) of *Fusarium sambucinum* (dry rot), *Phytophthora infestans* (late blight) and *Alternaria solani* (early blight), designed to project to the UK under CMIP6 scenarios SSP2-4.5 and SSP5-8.5. In the rebuild, no model reached the pre-set TSS cut-off of 0.5, so no projection is produced.
 
 ## Read this first
 
@@ -12,7 +12,7 @@ Every figure in this README comes from my own runs on one machine. None of the R
 
 ## What was found
 
-Configuration B (the corrected workflow, fitted on European records and projected onto the UK):
+Configuration B (the corrected workflow, fitted on European records and designed to project onto the UK):
 
 - *A. solani* was not modelled: 28 records remained after thinning, below the pre-set minimum of 30.
 - For the two modelled species, no spatially blocked run reached the TSS 0.5 retention cut-off. Across 120 robustness fits (block sizes 500, 1,000 and 1,500 km, five seeds), the best was TSS 0.35 and AUC 0.71. Larger blocks scored lower.
@@ -74,12 +74,12 @@ Raw data is not committed, because occurrence records carry their own licences a
 | Future climate | WorldClim 2.1 CMIP6, SSP2-4.5 and SSP5-8.5 | four periods, 2021 to 2100 |
 | Target-group background | GBIF records of the three genera | bias proxy |
 
-The first manuscript used the `spocc` package (GBIF, iDigBio, iNaturalist, VertNet, ALA, OBIS). This rebuild uses GBIF directly, so counts differ from the manuscript. The name rule for *F. sambucinum* (which GBIF synonyms count) is a decision recorded in `docs/DATA_FINDINGS.md` and was checked against the GBIF Synonyms tab on 19 Nov 2026, with one open point on the Fusarium roseum names described there.
+The first manuscript used the `spocc` package (GBIF, iDigBio, iNaturalist, VertNet, ALA, OBIS). This rebuild uses GBIF directly, so counts differ from the manuscript. The name rule for *F. sambucinum* (which GBIF synonyms count) is a decision recorded in `docs/DATA_FINDINGS.md` and was checked against the GBIF Synonyms tab on 19 Nov 2026, and tested with two sensitivity sets (see docs/FUSARIUM_SENSITIVITY_RESULTS.md). The name rule did not change the cross-validated TSS.
 
 
 ## Still open
 
-- Whether any future projection stays in the paper. This is a decision for the author, and any rule for admitting a projection must be justified and cited before maps are made.
+- Whether any future projection stays in the paper. This is an author decision, and any rule for admitting a projection must be justified and cited before maps are made.
 - Verification of all references in the draft.
 - The target journal's policy on code and data, before this repository is made public.
 
