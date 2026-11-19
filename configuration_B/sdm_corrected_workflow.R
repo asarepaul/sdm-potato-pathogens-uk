@@ -17,7 +17,13 @@ invisible(lapply(pkgs, library, character.only = TRUE))
 set.seed(2025)
 
 species <- c("Fusarium sambucinum", "Phytophthora infestans", "Alternaria solani")
-dir.create("outputs", showWarnings = FALSE)
+# OCC_SET picks the occurrence file made by 00_download_data.R (its NAME_SET):
+# "primary", "strict" or "broad". Non-primary runs write to outputs_<set>/ so the
+# primary outputs are never overwritten. Everything else in this script is unchanged.
+OCC_SET <- "primary"
+stopifnot(OCC_SET %in% c("primary", "strict", "broad"))
+OUT_DIR <- if (OCC_SET == "primary") "outputs" else paste0("outputs_", OCC_SET)
+dir.create(OUT_DIR, showWarnings = FALSE)
 
 ###############################################################################
 # DECISIONS: set these BEFORE you look at any model results, and report them.
@@ -127,7 +133,7 @@ regional_metrics <- function(f) {
 }
 if (length(files) > 0) {
   reg <- do.call(rbind, lapply(files, regional_metrics))
-  write.csv(reg, "outputs/part1_regional_metrics_existing.csv", row.names = FALSE)
+  write.csv(reg, file.path(OUT_DIR, "part1_regional_metrics_existing.csv"), row.names = FALSE)
 } else {
   message("Part 1 skipped: no rasters in '", existing_dir, "'. Continuing to Part 2.")
 }
@@ -152,7 +158,8 @@ print(data.frame(country = uk$country, area_share = round(a / sum(a), 3)))
 #                             format = "SIMPLE_CSV")
 #   # record: rgbif::occ_download_meta(dl)$doi
 # Then read the downloaded file into 'occ' with columns: species, lon, lat.
-occ_file <- if (FIT_REGION == "EUROPE") "data/occurrences_europe_raw.csv" else "data/occurrences_raw.csv"
+occ_sfx <- if (OCC_SET == "primary") "" else paste0("_", OCC_SET)
+occ_file <- if (FIT_REGION == "EUROPE") sprintf("data/occurrences_europe_raw%s.csv", occ_sfx) else sprintf("data/occurrences_raw%s.csv", occ_sfx)
 occ <- read.csv(occ_file)
 occ <- occ[occ$species %in% species, ]
 
@@ -203,14 +210,14 @@ n_thin <- sapply(species, function(sp) if (sp %in% names(occ_list)) nrow(occ_lis
 casc[[length(casc) + 1]] <- data.frame(species = species, n = as.integer(n_thin),
                                        step = "one record per grid cell")
 cascade <- do.call(rbind, casc)
-write.csv(cascade, "outputs/part2_record_cascade.csv", row.names = FALSE)
+write.csv(cascade, file.path(OUT_DIR, "part2_record_cascade.csv"), row.names = FALSE)
 print(n_thin)   # report these n in the paper
 
 too_few <- names(n_thin)[n_thin < MIN_THINNED_N]
 if (length(too_few)) {
   message("NOT MODELLED (fewer than MIN_THINNED_N = ", MIN_THINNED_N, " thinned records): ",
           paste(too_few, collapse = ", "))
-  writeLines(too_few, "outputs/part2_species_not_modelled.txt")
+  writeLines(too_few, file.path(OUT_DIR, "part2_species_not_modelled.txt"))
 }
 species <- setdiff(species, too_few)
 stopifnot("No species has enough records; see outputs/part2_record_cascade.csv" = length(species) > 0)
@@ -377,13 +384,13 @@ results <- lapply(species, run_species); names(results) <- species
 perf_all <- do.call(rbind, lapply(results, `[[`, "perf"))
 perf_all$cv_type <- CV_TYPE; perf_all$bg_type <- BG_TYPE
 perf_file <- if (CV_TYPE == "spatial" && BG_TYPE == "target_group") {
-  "outputs/part2_cv_performance.csv"
+  file.path(OUT_DIR, "part2_cv_performance.csv")
 } else {
-  sprintf("outputs/part2_cv_performance_%s_%s.csv", CV_TYPE, BG_TYPE)
+  sprintf(file.path(OUT_DIR, "part2_cv_performance_%s_%s.csv"), CV_TYPE, BG_TYPE)
 }
 write.csv(perf_all, perf_file, row.names = FALSE)
 write.csv(do.call(rbind, lapply(results, `[[`, "block_info")),
-          "outputs/part2_block_size.csv", row.names = FALSE)
+          file.path(OUT_DIR, "part2_block_size.csv"), row.names = FALSE)
 if (DIAGNOSTIC_ONLY) {
   print(perf_all)
   stop("Diagnostic run complete (this is not an error). Results: ", perf_file, call. = FALSE)
@@ -396,7 +403,7 @@ if (length(no_ensemble) > 0) {
   msg <- paste0("NO ENSEMBLE (every algorithm had cross-validated TSS < 0.5): ",
                 paste(no_ensemble, collapse = "; "),
                 ". Not projected. See outputs/part2_cv_performance.csv.")
-  writeLines(msg, "outputs/part2_no_ensemble.txt")
+  writeLines(msg, file.path(OUT_DIR, "part2_no_ensemble.txt"))
   warning(msg, call. = FALSE)
 }
 species <- setdiff(names(results), no_ensemble)
@@ -430,7 +437,7 @@ proj_summary <- list()
 for (sp in species) {
   res <- results[[sp]]
   cur <- ensemble_predict(res, bio_sel_uk)   # always projected onto the UK
-  terra::writeRaster(cur, sprintf("outputs/%s_current.tif", gsub(" ", "_", sp)), overwrite = TRUE)
+  terra::writeRaster(cur, sprintf(file.path(OUT_DIR, "%s_current.tif"), gsub(" ", "_", sp)), overwrite = TRUE)
   th <- mean(res$perf$threshold[res$perf$method %in% res$keep])
 
   for (ssp in ssps) for (tm in times) {
@@ -441,9 +448,9 @@ for (sp in species) {
     agree  <- terra::app(st >= th, mean, na.rm = TRUE)    # share of GCMs predicting suitable
     diff_r <- mean_r - cur                                 # difference map (common scale)
     tag <- sprintf("%s_SSP%s_%s", gsub(" ", "_", sp), ssp, tm)
-    terra::writeRaster(mean_r, sprintf("outputs/%s_mean.tif", tag), overwrite = TRUE)
-    terra::writeRaster(sd_r,   sprintf("outputs/%s_sd.tif", tag), overwrite = TRUE)
-    terra::writeRaster(diff_r, sprintf("outputs/%s_diff.tif", tag), overwrite = TRUE)
+    terra::writeRaster(mean_r, sprintf(file.path(OUT_DIR, "%s_mean.tif"), tag), overwrite = TRUE)
+    terra::writeRaster(sd_r,   sprintf(file.path(OUT_DIR, "%s_sd.tif"), tag), overwrite = TRUE)
+    terra::writeRaster(diff_r, sprintf(file.path(OUT_DIR, "%s_diff.tif"), tag), overwrite = TRUE)
 
     # Regional metrics (the corrected Table II)
     for (i in seq_len(nrow(uk))) {
@@ -460,7 +467,7 @@ for (sp in species) {
   }
 }
 proj_summary <- do.call(rbind, proj_summary)
-write.csv(proj_summary, "outputs/part2_regional_projection_summary.csv", row.names = FALSE)
+write.csv(proj_summary, file.path(OUT_DIR, "part2_regional_projection_summary.csv"), row.names = FALSE)
 
 ## 2.6 Extrapolation check (MESS) for one scenario, as an example ---------------
 # predicts::mess(x = future_bio_stack, v = reference_values_at_training_points)

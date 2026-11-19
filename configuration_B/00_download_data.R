@@ -62,8 +62,24 @@ ALSO_EUROPE <- TRUE
 #     F. roseum was a broad historical catch-all for several Fusarium species.
 #     Matching is on lower-cased scientificName + verbatimScientificName.
 #     Sensitivity run (strict set, 338 records): use only "Fusarium sambucinum".
+# NAME_SET picks which F. sambucinum name rule is applied. "primary" is the main
+# analysis (526 Europe records). "strict" and "broad" are sensitivity analyses to
+# be reported alongside it, not alternatives to choose between after seeing results.
+#   primary : sambucinum + pulicaris + cyanogena + sulphureum
+#   strict  : "Fusarium sambucinum" only (338 records)
+#   broad   : primary + names containing "roseum" (564 records)
+# The GBIF zip is reused, so no new download is needed: only this filter changes.
+# Non-primary sets write files with a suffix (e.g. occurrences_europe_raw_strict.csv)
+# so the primary files are never overwritten.
+NAME_SET <- "primary"
+stopifnot(NAME_SET %in% c("primary", "strict", "broad"))
+SFX <- if (NAME_SET == "primary") "" else paste0("_", NAME_SET)
+FUS_NAMES <- switch(NAME_SET,
+  primary = c("Fusarium sambucinum", "pulicaris", "cyanogena", "sulphureum"),
+  strict  = c("Fusarium sambucinum"),
+  broad   = c("Fusarium sambucinum", "pulicaris", "cyanogena", "sulphureum", "roseum"))
 NAME_RULES <- list(
-  "Fusarium sambucinum"    = c("Fusarium sambucinum", "pulicaris", "cyanogena", "sulphureum"),
+  "Fusarium sambucinum"    = FUS_NAMES,
   "Phytophthora infestans" = NULL,
   "Alternaria solani"      = NULL
 )
@@ -153,7 +169,7 @@ tidy_occ <- function(x, tag) {
   audit <- x |>
     dplyr::count(label, scientificName, verbatimScientificName, name = "n") |>
     dplyr::arrange(label, dplyr::desc(n))
-  write.csv(audit, sprintf("data/gbif/name_audit_%s.csv", tag), row.names = FALSE)
+  write.csv(audit, sprintf("data/gbif/name_audit_%s%s.csv", tag, SFX), row.names = FALSE)
   cat("\nNames filed under each pathogen,", tag, "(first 25 rows):\n")
   print(utils::head(audit, 25))
   stopifnot("Edit NAME_RULES at the top, then set NAMES_CONFIRMED <- TRUE. See data/gbif/name_audit_*.csv" =
@@ -167,7 +183,7 @@ tidy_occ <- function(x, tag) {
     ok[x$label == lab & !hit] <- FALSE
   }
   dropped <- x[!ok, ] |> dplyr::count(label, scientificName, name = "n_dropped")
-  write.csv(dropped, sprintf("data/gbif/names_dropped_%s.csv", tag), row.names = FALSE)
+  write.csv(dropped, sprintf("data/gbif/names_dropped_%s%s.csv", tag, SFX), row.names = FALSE)
   cat("Records dropped by NAME_RULES,", tag, ":", sum(!ok), "\n")
   x[ok, ] |>
     dplyr::transmute(species = label, species_gbif = species,
@@ -210,7 +226,7 @@ if (!is.na(EXISTING_UK_ZIP) && file.exists(EXISTING_UK_ZIP)) {
   cat("CITE THIS DOI IN THE PAPER:", meta$doi, "\n")
 }
 occ <- tidy_occ(read_gbif_zip(zipf), "UK")
-write.csv(occ, "data/occurrences_raw.csv", row.names = FALSE)
+write.csv(occ, sprintf("data/occurrences_raw%s.csv", SFX), row.names = FALSE)
 summarise_occ(occ)
 # If one dataset dominates a species or unique_coords is far below n, investigate
 # (records_by_dataset.csv). Uncertainty and year columns are used in Part 2.
@@ -238,7 +254,7 @@ if (ALSO_EUROPE) {
     cat("CITE THIS DOI TOO (Europe):", meta_eu$doi, "\n")
   }
   occ_eu <- tidy_occ(read_gbif_zip(zip_eu), "EUROPE")
-  write.csv(occ_eu, "data/occurrences_europe_raw.csv", row.names = FALSE)
+  write.csv(occ_eu, sprintf("data/occurrences_europe_raw%s.csv", SFX), row.names = FALSE)
   summarise_occ(occ_eu)
 }
 
