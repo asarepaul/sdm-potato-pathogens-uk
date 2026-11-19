@@ -1,0 +1,23 @@
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj.user
+.Renviron
+.Rapp.history
+
+# Data and large outputs (re-created by the scripts)
+data/*
+!data/.gitkeep
+*.tif
+*.grd
+*.gri
+*.rds
+*.zip
+
+# Local run artefacts
+outputs_INVALID_run1/
+sdm_diag_tmp.R
+configuration_B/sdm_diag_tmp.R
+.DS_Store
