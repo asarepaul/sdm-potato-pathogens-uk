@@ -85,7 +85,7 @@ The first manuscript used the `spocc` package (GBIF, iDigBio, iNaturalist, VertN
 
 ## Citation
 
-Unpublished manuscript. Co-authors: TODO, to be confirmed before this repository is made public.
+Unpublished manuscript. Lead author: Paul Kojo Asare.
 
 ## Licence
 
