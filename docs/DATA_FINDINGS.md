@@ -14,7 +14,7 @@ The DOI was read from a photo of the download page. Check it against the page be
 
 ## Decisions that are yours, to set before seeing any model result
 
-1. Which names count as *F. sambucinum*. Name audit of the 203 UK records (name as recorded): *Fusarium sambucinum* 193, *Gibberella pulicaris* 7, *G. cyanogena* 2, *Fusarium roseum* 1. The default keeps *F. sambucinum* only. Adding the *Gibberella* names is a taxonomic claim: do it only with a source you can cite. Excluding *F. roseum* avoids the broad historical name.
+1. Which names count as *F. sambucinum*. Name audit of the 203 UK records (name as recorded): *Fusarium sambucinum* 193, *Gibberella pulicaris* 7, *G. cyanogena* 2, *Fusarium roseum* 1. The default at that point kept *F. sambucinum* only; the rule was later changed (see the decision of 18 Nov below). Adding the *Gibberella* names is a taxonomic claim: do it only with a source you can cite. Excluding *F. roseum* avoids the broad historical name.
 2. `MIN_THINNED_N`. The script refuses to run until you set it.
 3. Uncertainty cut-off, year range and the Europe bounding box.
 4. Whether to keep *A. solani*. With 22 UK records it cannot be modelled on UK data. Europe data may change that. Dropping it changes the paper's scope and needs your co-authors' agreement.
@@ -62,7 +62,7 @@ Europe counts per species after the name rule (each column counted separately):
 | P. infestans | 549 | 226 | 222 | 132 |
 | A. solani | 96 | 48 | 45 | 30 |
 
-The F. sambucinum row is the strict set. Recount after applying the wider rule.
+The F. sambucinum row is the strict set. Final thinned counts for all three name rules are in `docs/FUSARIUM_SENSITIVITY_RESULTS.md`.
 
 Target group: all fungi in Europe from 1990 is 28,284,306 records, too large. Replaced by
 all records of Fusarium, Phytophthora and Alternaria in Europe from 1990. Counts to be
@@ -123,7 +123,7 @@ Source: `data/gbif/name_audit_EUROPE.csv` and `data/occurrences_europe_raw.csv` 
 - 140 provider names "Gibberella pulicaris", 39 "Gibberella cyanogena", plus a few under Sphaeria, Botryosphaeria, Gibbera and Nectria pulicaris or cyanogena, and 1 each "Fusarium sulphureum" and "Fusarium discolor var. sulphureum".
 - 38 records whose provider name is *F. roseum* or *Fusidium roseum* are excluded by the rule.
 
-Strict sensitivity set (provider or GBIF name is "Fusarium sambucinum" only) is 338 records, the figure used in the script comments. Broad set is 526.
+Strict sensitivity set (provider or GBIF name is "Fusarium sambucinum" only) is 338 records, the figure used in the script comments. The primary set is 526 records. The broad set, which adds the 38 roseum-named records, is 564.
 
 Outside evidence found by web search (not GBIF, and not yet read in full): the New Zealand Organisms Register, Biota of New Zealand and the USDA National Agricultural Library thesaurus each list *Gibberella pulicaris*, *G. cyanogena* and *F. sulphureum* as synonyms of *F. sambucinum*. The latter two also list *F. roseum*; Biota of New Zealand notes that conservation of *F. sambucinum* over *F. roseum* was adopted (Gams et al. 1997, Gams 1999). Nirenberg (1995, Mycopathologia 129: 131-141) separates *F. sambucinum* sensu stricto from *F. torulosum* and *F. venenatum*, so records named *F. sambucinum* may include close relatives. Treat these as leads to read, not citations.
 
@@ -131,7 +131,7 @@ What this means for the rule:
 - Including pulicaris, cyanogena and sulphureum names is supported by three independent synonym lists, but each source must be opened and cited.
 - Excluding the 38 roseum-named records is a judgement. *F. roseum* is a listed synonym in two of those sources, yet it was historically a broad catch-all name. The effect is small (38 of 564 records) and the strict run covers it.
 - Still to do by hand: open the GBIF species page for *Fusarium sambucinum*, read the Synonyms tab, and confirm each included name appears there. The GBIF API is not reachable from the analysis environment, so this was not checked against GBIF itself.
-- Still to do: run the workflow on the strict 338 set and report both sets as a sensitivity analysis.
+- Done on 19 Nov 2026: the workflow was run on the primary, strict and broad sets. Results are in `docs/FUSARIUM_SENSITIVITY_RESULTS.md`. No set reached TSS 0.5.
 
 ### GBIF Synonyms tab checked by hand (19 Nov 2026, species page gbif.org/taxon/6K4VS)
 
@@ -141,4 +141,4 @@ Read from photographs of the page. The Synonyms section lists 57 results. Seen o
 - *Sphaeria pulicaris* Fr.: a page search found one match, which was inside the word "Botryosphaeria", so it is not listed as a separate entry. Two records carry this name (2 of 526). It is the basionym of *Gibberella pulicaris* (Fr.) Sacc. and *Botryosphaeria pulicaris* (Fr.) Ces. & De Not. (the "(Fr.)" in those names marks Fries's original *Sphaeria pulicaris*), and GBIF returned the records under the *F. sambucinum* key. Kept; the effect of dropping them is at most 2 records.
 - "roseum": a page search found 6 matches. Two sit in the Type material section: *Fusarium roseum* Link (type, BPI 452843) and *Fusarium roseum* var. *matthiolae* P.Karst. (type, H). One is *Fusarium roseum* f. *cereale* (Snyder & Hansen) in the Synonyms list. The other three were not photographed. GBIF therefore treats *F. roseum* Link as part of the *F. sambucinum* concept, which agrees with the New Zealand and USDA lists above.
 
-Consequence for the rule: the stated reason for excluding the 38 *roseum*-named records ("historical catch-all name") is not supported by anything checked so far, and the evidence found points the other way. It is a judgement, not a verified fact. The primary analysis keeps the rule fixed before any model results were seen (526 records). Report two sensitivity sets alongside it: strict (provider or GBIF name "Fusarium sambucinum" only, 338 records) and broad (all 564 Fusarium records GBIF returned for the key, including the 38 *roseum*-named). The broad set has not been built yet.
+Consequence for the rule: the stated reason for excluding the 38 *roseum*-named records ("historical catch-all name") is not supported by anything checked so far, and the evidence found points the other way. It is a judgement, not a verified fact. The primary analysis keeps the rule fixed before any model results were seen (526 records). Report two sensitivity sets alongside it: strict (provider or GBIF name "Fusarium sambucinum" only, 338 records) and broad (all 564 Fusarium records GBIF returned for the key, including the 38 *roseum*-named). Both sets were built and run on 19 Nov 2026; results are in `docs/FUSARIUM_SENSITIVITY_RESULTS.md`.
