@@ -31,8 +31,6 @@ Counts are from the earlier name audit. Check each against the new
 `outputs_<set>/part2_cv_performance.csv` (TSS, AUC) for *F. sambucinum* against the
 primary run. Report all three. Seed `set.seed(2025)` is fixed in the script.
 
-## Not yet verified
+ ## Status
 
-These changes have not been run (no R in the drafting environment). The first run may
-need a fix. The "roseum" match is a substring match, so check the broad name audit for
-any name that is not *Fusarium roseum* before using that set.
+These runs were completed on 19 Nov 2026 in RStudio. Results are in FUSARIUM_SENSITIVITY_RESULTS.md. The "roseum" match is a substring match, but the broad name audit listed only Fusarium sambucinum, F. roseum, Fusidium roseum, pulicaris, cyanogena and sulphureum names, so no other species entered the set.
