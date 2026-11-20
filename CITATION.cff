@@ -1,0 +1,7 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite them as below."
+title: "Code and results for: How evaluation design shapes the apparent skill of species distribution models for potato pathogens"
+authors:
+  - family-names: Asare
+    given-names: Paul Kojo
+repository-code: "https://github.com/asarepaul/sdm-potato-pathogens-uk"
