@@ -224,7 +224,8 @@ stopifnot("No species has enough records; see outputs/part2_record_cascade.csv" 
 if (!requireNamespace("usdm", quietly = TRUE)) install.packages("usdm")
 vif_keep <- usdm::vifstep(bio, th = 10)
 bio_sel <- usdm::exclude(bio, vif_keep)
-print(names(bio_sel))           # report this exact set, same for all species
+print(names(bio_sel)) # report this exact set, same for all species
+writeLines(names(bio_sel), file.path(OUT_DIR, "predictors_retained.txt"))
 # The same retained variables, cropped to the UK, are what every projection uses.
 bio_sel_uk <- bio_uk[[names(bio_sel)]]
 # Note: on a Europe-sized raster vifstep can be slow and memory-hungry. If it
