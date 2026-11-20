@@ -53,4 +53,4 @@ See `CITATION.cff`.
 
 ## Licence
 
-Code: TODO (choose, for example MIT). Occurrence data keep their CC BY-NC 4.0 licence.
+Code: MIT (see LICENSE). Occurrence data keep their CC BY-NC 4.0 licence.
