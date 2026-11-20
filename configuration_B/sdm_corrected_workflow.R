@@ -46,12 +46,9 @@ YEAR_MAX <- NA             # NA = no upper limit
 KEEP_NA_YEAR <- FALSE
 
 # Minimum thinned records (one per cell) needed to model a species. A species
-# below this is reported and NOT modelled. Choose it now, from the literature
-# or your own justification, not after seeing results.
-# 30 is a default I proposed from judgement (enough presences for spatial block
-# cross-validation folds). It is NOT from a citation. Replace it with a value you
-# can cite if you find a published rule, and say in the Methods that it was fixed
-# before any model was run.
+# below this is reported and NOT modelled.
+# 30 is a judgement default (enough presences for spatial block cross-validation
+# folds). It is not from a citation. It is reported in the Methods as a judgement.
 MIN_THINNED_N <- 30L
 # Spatial block size for cross-validation. The autocorrelation range of the
 # predictors was 18,873 km (F. sambucinum) and 14,601 km (P. infestans) in the primary
