@@ -15,6 +15,8 @@ Cross-validated AUC and TSS for four algorithms (glm, gam, rf, brt), Europe fit,
 
 Provenance of the last two rows: they came from the first spatial/target-group run (seed 2025, 1,000 km blocks). That run's CSV (`part2_cv_performance.csv`) was overwritten by the final robustness run, so only the screenshot means survive and the ranges cannot be recovered. The robustness section below gives regenerated figures for the same design (1,000 km, seeds 101 to 105): mean TSS 0.23 (*F. sambucinum*) and 0.20 (*P. infestans*). Quote those, not the two screenshot means.
 
+Update: the final primary run is saved in results/primary_outputs/ and gives the spatial and target_group ranges reported in the paper (Table 2). Use those, not the two rows above.
+
 Notes
 - "random" is 5-fold random, the closest cross-validated analogue of the original random 70/30 split. "mcp" is a background drawn inside the convex polygon of each species' own records, an approximation of the original.
 - Spatial folds are 1,000 km blocks (cap). Fold test sets are unbalanced (for example 4 to 81 presences per fold for *F. sambucinum* in one run), so spatial estimates are noisy.
