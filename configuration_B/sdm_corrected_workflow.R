@@ -2,10 +2,10 @@
 # Corrected workflow: climatic suitability of three potato pathogens in the UK
 # Pathogens: Fusarium sambucinum, Phytophthora infestans, Alternaria solani
 #
-# STATUS: template written without access to your data and NOT run or tested.
-# Expect to adjust file paths, object names and package versions.
-# Run Part 1 first (hours, not weeks). It tells you whether a real regional
-# signal exists before you invest in the full re-analysis in Part 2.
+# STATUS: run on the project data in November 2026. Primary analysis:
+# CV_TYPE = "spatial" with BG_TYPE = "target_group". Other designs are sensitivity runs.
+# Part 1 recomputes metrics from earlier prediction rasters (existing_predictions)
+# and is not part of the reported CV results. Part 2 is the reproducible analysis.
 ###############################################################################
 
 pkgs <- c("terra", "sf", "dplyr", "geodata", "rgbif", "CoordinateCleaner",
@@ -54,8 +54,8 @@ KEEP_NA_YEAR <- FALSE
 # before any model was run.
 MIN_THINNED_N <- 30L
 # Spatial block size for cross-validation. The autocorrelation range of the
-# predictors over this Europe extent came out at 6,811,882 m (about 6,800 km),
-# larger than the study region, which puts every point in a single block. The
+# predictors was 18,873 km (F. sambucinum) and 14,601 km (P. infestans) in the primary
+# run, larger than the study region, which puts every point in a single block. The
 # block size used is min(autocorrelation range, BLOCK_SIZE_CAP_M). If that still
 # gives fewer blocks than folds, the size is halved until it works, but never
 # below BLOCK_SIZE_MIN_M. Both values are judgement defaults, NOT from a citation,
