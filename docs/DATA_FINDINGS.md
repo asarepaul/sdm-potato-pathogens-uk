@@ -17,14 +17,12 @@ The DOI was checked against the download page on 19 Nov 2026.
 1. Which names count as *F. sambucinum*. Name audit of the 203 UK records (name as recorded): *Fusarium sambucinum* 193, *Gibberella pulicaris* 7, *G. cyanogena* 2, *Fusarium roseum* 1. The default at that point kept *F. sambucinum* only; the rule was later changed (see the decision of 18 Nov below). Adding the *Gibberella* names is a taxonomic claim: do it only with a source you can cite. Excluding *F. roseum* avoids the broad historical name.
 2. `MIN_THINNED_N`. The script refuses to run until you set it.
 3. Uncertainty cut-off, year range and the Europe bounding box.
-4. Whether to keep *A. solani*. With 22 UK records it cannot be modelled on UK data. Europe data may change that. Dropping it changes the paper's scope and needs your co-authors' agreement.
-
+4. Whether to keep *A. solani*. With 22 UK records it cannot be modelled on UK data. Europe data may change that. Dropping it changes the paper's scope and was my decision.
 ## What is still open
 
 - Europe-wide recorder effort. The target-group download for Europe is very large. The script prints the record count and stops until `CONFIRM_BIG_DOWNLOAD <- TRUE`. A GBIF SQL download that returns counts per cell would be smaller, but its syntax is untested here.
 - Fitting on Europe and projecting onto the UK changes the claim from "UK models" to "models fitted on European records, projected onto the UK". The title and abstract must say so.
-- None of the R scripts have been run. R is not installed where they were written.
-
+- The scripts have been run by the author on one machine (RStudio). No one else has run them yet.
 ## Configuration A (`R/`)
 
 Unchanged for the name problem, because `R/01_download_occurrences.R` labels records by the query name, not by the returned species string. It still has no coordinate-uncertainty or year filter, since the spocc output does not carry uncertainty. Treat Configuration A as the like-for-like rebuild only, and use Configuration B for anything you intend to report.
